@@ -76,9 +76,3 @@ Available npm scripts in [package.json](package.json):
 - Profile management
 - Settings configuration
 - Type-safe data handling with TypeScript
-
-## Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs)
