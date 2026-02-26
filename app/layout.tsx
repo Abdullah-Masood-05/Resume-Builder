@@ -1,24 +1,27 @@
 import "./globals.css"
 import Sidebar from "@/components/Sidebar"
 import { TemplateProvider } from "@/context/TemplateContext"
+import { AuthProvider } from "@/context/AuthContext"
 import LayoutWrapper from "@/components/layout-wrapper"
 
 export const metadata = {
-  title: "InstaCV",
-  description: "Smart Resume Builder",
+  title: "InstaCV - Smart Resume Builder & Job Portal",
+  description: "Build professional resumes and connect with opportunities",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-background text-foreground">
-        <TemplateProvider>
-          <LayoutWrapper>
-            <Sidebar>
-              {children}
-            </Sidebar>
-          </LayoutWrapper>
-        </TemplateProvider>
+        <AuthProvider>
+          <TemplateProvider>
+            <LayoutWrapper>
+              <Sidebar>
+                {children}
+              </Sidebar>
+            </LayoutWrapper>
+          </TemplateProvider>
+        </AuthProvider>
       </body>
     </html>
   )

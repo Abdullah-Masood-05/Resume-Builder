@@ -13,13 +13,15 @@ interface TemplateProviderProps {
 }
 
 export function TemplateProvider({ children }: TemplateProviderProps) {
-  const [selectedTemplate, setSelectedTemplate] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      const storedTemplate = localStorage.getItem("selectedTemplate");
-      return storedTemplate ?? "modern-2col";
+  const [selectedTemplate, setSelectedTemplate] = useState<string>("modern-2col");
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const storedTemplate = localStorage.getItem("selectedTemplate");
+    if (storedTemplate) {
+      setSelectedTemplate(storedTemplate);
     }
-    return "modern-2col";
-  });
+  }, []);
 
   // Save to localStorage when it changes
   useEffect(() => {
