@@ -1,27 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FaRegFileAlt, FaUser } from "react-icons/fa";
+import { usePathname, useRouter } from "next/navigation";
+import { FaRegFileAlt, FaUser, FaBriefcase, FaFileAlt, FaSignOutAlt, FaCheckCircle } from "react-icons/fa";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { HiTemplate } from "react-icons/hi";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
-  const [userCollapsed, setUserCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout } = useAuth();
 
-  // Derived collapsed state: force collapsed on "/resume", otherwise allow user toggle
-  const collapsed = pathname === "/resume" ? true : userCollapsed;
+  // Handle mounting to prevent hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Auto-collapse sidebar when on "/resume" path
+  useEffect(() => {
+    if (pathname === "/resume") {
+      setCollapsed(true);
+    } else {
+      setCollapsed(false);
+    }
+  }, [pathname]);
+
+  // Hide sidebar on auth pages
+  if (pathname === "/auth/login" || pathname === "/auth/register") {
+    return <>{children}</>;
+  }
 
   // Determine if we should hide the toggle button
   const shouldHideToggleButton = pathname === "/resume";
 
-  const navItems = [
-    { href: "/", icon: <FaRegFileAlt />, label: "My Resumes" },
-    { href: "/resume", icon: <HiTemplate />, label: "Resume", },
-    { href: "/profile", icon: <FaUser />, label: "Profile" },
-  ];
+  const handleLogout = () => {
+    logout();
+    router.push("/auth/login");
+  };
+
+  // Role-based navigation
+  const getNavItems = () => {
+    if (!user) return [];
+
+    if (user.role === "recruiter") {
+      return [
+        { href: "/dashboard", icon: <FaBriefcase />, label: "Dashboard" },
+        { href: "/recruiter/jobs", icon: <FaRegFileAlt />, label: "My Jobs" },
+        { href: "/profile", icon: <FaUser />, label: "Profile" },
+      ];
+    } else {
+      return [
+        { href: "/dashboard", icon: <FaBriefcase />, label: "Dashboard" },
+        { href: "/candidate/jobs", icon: <FaBriefcase />, label: "Browse Jobs" },
+        { href: "/candidate/applications", icon: <FaCheckCircle />, label: "My Applications" },
+        { href: "/resume", icon: <HiTemplate />, label: "Build Resume" },
+        { href: "/profile", icon: <FaUser />, label: "Profile" },
+      ];
+    }
+  };
+
+  const navItems = getNavItems();
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -37,7 +79,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               <FaRegFileAlt className="text-2xl text-orange-500 shrink-0" />
               {!shouldHideToggleButton && (
                 <button
-                  onClick={() => setUserCollapsed(!userCollapsed)}
+                  onClick={() => setCollapsed(!collapsed)}
                   className="text-2xl text-gray-600 hover:text-orange-500 transition-colors"
                   aria-label="Expand sidebar"
                 >
@@ -55,7 +97,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               </div>
               {!shouldHideToggleButton && (
                 <button
-                  onClick={() => setUserCollapsed(!userCollapsed)}
+                  onClick={() => setCollapsed(!collapsed)}
                   className="text-2xl text-gray-600 hover:text-orange-500 transition-colors shrink-0"
                   aria-label="Collapse sidebar"
                 >
@@ -80,6 +122,27 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             />
           ))}
         </nav>
+
+        {/* User Info & Logout */}
+        {mounted && user && (
+          <div className="px-3 py-4 border-t border-gray-200">
+            {!collapsed && (
+              <div className="mb-3 px-2">
+                <p className="text-xs text-gray-500 mb-1">Logged in as</p>
+                <p className="text-sm font-semibold text-gray-900 truncate">{user.fullName}</p>
+                <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+              </div>
+            )}
+            <button
+              onClick={handleLogout}
+              className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 transition-all ${collapsed ? "justify-center" : ""
+                }`}
+            >
+              <FaSignOutAlt className="text-lg shrink-0" />
+              {!collapsed && <span>Logout</span>}
+            </button>
+          </div>
+        )}
 
         {/* Footer */}
         <div className="px-4 py-4 border-t border-gray-200">
@@ -124,10 +187,10 @@ function SidebarItem({
     <Link
       href={href}
       className={`flex items-center gap-3 px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${active && !isResumePath
-          ? "bg-orange-50 text-orange-600 border border-orange-200"
-          : isResumePath
-            ? "text-gray-500" // Different styling for resume path
-            : "text-gray-700 hover:bg-gray-100 hover:text-orange-600"
+        ? "bg-orange-50 text-orange-600 border border-orange-200"
+        : isResumePath
+          ? "text-gray-500" // Different styling for resume path
+          : "text-gray-700 hover:bg-gray-100 hover:text-orange-600"
         } ${collapsed ? "justify-center" : ""}`}
     >
       <div className="text-[28px] shrink-0">{icon}</div>

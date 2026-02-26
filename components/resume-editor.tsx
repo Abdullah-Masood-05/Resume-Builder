@@ -100,35 +100,36 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
   return (
     <div className="flex flex-col bg-white rounded-xl pb-[680px] overflow-auto h-full border border-gray-200 shadow-lg">
       {/* Header */}
-      <header className="bg-linear-to-r from-orange-600 to-orange-700 px-6 py-5 border-b border-orange-700">
+      <header className="bg-white px-6 py-5 border-b border-orange-700">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
-            <FileText className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+        <FileText className="w-5 h-5 text-orange-700" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Resume Builder</h1>
-            <p className="text-orange-100 text-sm">Create your perfect resume</p>
+        <h1 className="text-xl font-bold text-orange-700">Resume Builder</h1>
+        <p className="text-orange-600 text-sm">Create your perfect resume</p>
           </div>
         </div>
-
+        
         {/* Navigation Tabs */}
         <nav className="flex gap-2">
           {sections.map((section) => {
-            const Icon = section.icon
-            const isActive = activeSection === section.id
-            return (
-              <button
-                key={section.id}
-                onClick={() => setActiveSection(section.id as typeof activeSection)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${isActive
-                    ? "bg-white text-orange-600 shadow-md"
-                    : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
-                  }`}
-              >
-                <Icon className="w-4 h-4" />
-                {section.label}
-              </button>
-            )
+        const Icon = section.icon
+        const isActive = activeSection === section.id
+        return (
+          <button
+            key={section.id}
+            onClick={() => setActiveSection(section.id as typeof activeSection)}
+            className={`flex bg-orange-50 text-orange-700 border-[2px] border-orange-100 items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
+          isActive
+            ? "bg-orange-50 text-orange-700 shadow-md"
+            : "bg-white text-orange-700 hover:bg-orange-100"
+            }`}
+          >
+            <Icon className="w-4 h-4 text-orange-700" />
+            {section.label}
+          </button>
+        )
           })}
         </nav>
       </header>
@@ -241,7 +242,7 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
                 <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
                   <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-3" />
                   <p className="text-gray-500 font-medium">No experience added yet</p>
-                  <p className="text-sm text-gray-400 mt-1">Click &quot;Add Experience&quot; to get started</p>
+                  <p className="text-sm text-gray-400 mt-1">Click Add Experience to get started</p>
                 </div>
               ) : (
                 data.experience.map((exp, i) => (
@@ -347,7 +348,7 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
                 <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
                   <GraduationCap className="w-12 h-12 text-gray-400 mx-auto mb-3" />
                   <p className="text-gray-500 font-medium">No education added yet</p>
-                  <p className="text-sm text-gray-400 mt-1">Click &quot;Add Education&quot; to get started</p>
+                  <p className="text-sm text-gray-400 mt-1">Click Add Education to get started</p>
                 </div>
               ) : (
                 data.education.map((edu, i) => (

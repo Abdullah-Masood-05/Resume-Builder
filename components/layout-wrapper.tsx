@@ -20,12 +20,8 @@ const SmallScreenError = () => (
 );
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
-  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth >= 1024;
-    }
-    return true;
-  });
+  const [isClient, setIsClient] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(true);
 
   const checkScreenSize = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -35,18 +31,33 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   }, []);
 
   useEffect(() => {
+    // Set client state to true after hydration
+    setIsClient(true);
+    
+    // Check initial screen size
+    setIsLargeScreen(checkScreenSize());
+    
     // Add resize listener
     const handleResize = () => {
       setIsLargeScreen(checkScreenSize());
     };
-
+    
     window.addEventListener('resize', handleResize);
-
+    
     // Cleanup listener on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [checkScreenSize]);
+
+  // Don't render anything on the server or if client is not ready
+  if (!isClient) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   // Render 404 component if screen is too small
   if (!isLargeScreen) {

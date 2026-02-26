@@ -5,6 +5,7 @@ import { DownloadPdfButton } from "./resume-download"
 import type { ResumeData } from "@/lib/resume"
 import { htmlTemplates } from "@/lib/html-registry"
 import { FiFileText } from "react-icons/fi"
+import { BiZoomIn, BiZoomOut } from "react-icons/bi"
 
 type ResumePreviewProps = {
   data: ResumeData
@@ -34,7 +35,7 @@ export function ResumePreview({ data, template }: ResumePreviewProps) {
       {/* Preview Container */}
       <div className="flex-1 overflow-auto py-6">
         <div className="max-w-4xl mx-auto">
-          {/* Resume Preview */}
+         {/* Resume Preview */}
 
           <div className="bg-gray-100 w-full rounded-xl shadow-lg border border-gray-200 py-3 overflow-y-auto">
             <div className="flex justify-center">
