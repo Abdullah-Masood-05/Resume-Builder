@@ -5,7 +5,7 @@ import { AuthProvider } from "@/context/AuthContext"
 import LayoutWrapper from "@/components/layout-wrapper"
 
 export const metadata = {
-  title: "InstaCV - Smart Resume Builder & Job Portal",
+  title: "Resume Builder - Smart Resume Builder & Job Portal",
   description: "Build professional resumes and connect with opportunities",
 }
 
@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 // )
 
 // export const metadata = {
-//   title: "InstaCV",
+//   title: "Resume Builder",
 //   description: "Smart Resume Builder",
 // }
 

@@ -63,7 +63,7 @@ export default function LoginPage() {
         {/* Left Panel - Branding */}
         <div className="hidden lg:flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800 p-12 text-white">
           <div className="max-w-md text-center">
-            <h1 className="text-5xl font-bold mb-6">InstaCV</h1>
+            <h1 className="text-5xl font-bold mb-6">Resume Builder</h1>
             <div className="w-20 h-1 bg-orange-400 mx-auto mb-6"></div>
             <p className="text-xl mb-8 text-blue-100">
               Your Gateway to Career Success

@@ -92,7 +92,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               <div className="flex items-center gap-2 overflow-hidden">
                 <FaRegFileAlt className="text-2xl text-orange-500 shrink-0" />
                 <h1 className="font-bold text-xl text-gray-900 whitespace-nowrap">
-                  InstaCV
+                  Resume Builder
                 </h1>
               </div>
               {!shouldHideToggleButton && (
@@ -150,7 +150,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             className={`text-xs text-gray-500 text-center transition-all duration-300 ${collapsed ? "opacity-0" : "opacity-100"
               }`}
           >
-            © {new Date().getFullYear()} InstaCV
+            © {new Date().getFullYear()} Resume Builder
           </p>
         </div>
       </aside>

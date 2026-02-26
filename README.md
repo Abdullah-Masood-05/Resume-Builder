@@ -16,7 +16,7 @@
 
 ## Overview
 
-InstaCV is a fully client-side resume builder and job platform built with **Next.js 16** and **React 19**. It supports two distinct user roles — **Candidates** and **Recruiters** — each with their own authenticated dashboard. Candidates can build professional resumes and apply to job listings; recruiters can post jobs and manage applications. All data is persisted in `localStorage` — no backend required.
+Resume Builder is a fully client-side resume builder and job platform built with **Next.js 16** and **React 19**. It supports two distinct user roles — **Candidates** and **Recruiters** — each with their own authenticated dashboard. Candidates can build professional resumes and apply to job listings; recruiters can post jobs and manage applications. All data is persisted in `localStorage` — no backend required.
 
 ---
 
@@ -74,7 +74,7 @@ InstaCV is a fully client-side resume builder and job platform built with **Next
 ## Project Structure
 
 ```
-instacv/
+Resume Builder/
 ├── app/
 │   ├── page.tsx                       # Template selection / home
 │   ├── dashboard/page.tsx             # Auth gate + role-based redirect
@@ -131,8 +131,8 @@ instacv/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/instacv.git
-cd instacv
+git clone https://github.com/your-username/Resume Builder.git
+cd Resume Builder
 
 # 2. Install dependencies
 bun install
