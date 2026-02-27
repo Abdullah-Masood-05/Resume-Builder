@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { jobService, applicationService, type Job } from "@/lib/services";
+import { jobService, applicationService, type Job, type Application } from "@/lib/services";
 import { Card, Button, Modal, SearchBar, Badge, EmptyState } from "@/components/ui";
 import { FaBriefcase, FaPlus, FaEye, FaTrash, FaMapMarkerAlt, FaDollarSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
