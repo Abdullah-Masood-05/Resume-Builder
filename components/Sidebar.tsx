@@ -79,27 +79,28 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         {/* Header */}
         <div className={`px-4 py-5 border-b border-gray-200 ${collapsed ? "flex flex-col items-center gap-3" : "flex items-center justify-between"}`}>
           {collapsed ? (
-            <>
-              <FaRegFileAlt className="text-2xl text-orange-500 shrink-0" />
-              <button
-                onClick={() => setCollapsed(!collapsed)}
-                className="text-2xl text-gray-600 hover:text-orange-500 transition-colors"
-                aria-label="Expand sidebar"
-              >
-                <IoMenu />
-              </button>
-            </>
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="text-2xl text-orange-500 hover:text-orange-600 transition-colors shrink-0"
+              aria-label="Expand sidebar"
+            >
+              <FaRegFileAlt />
+            </button>
           ) : (
             <>
-              <div className="flex items-center gap-2 overflow-hidden">
-                <FaRegFileAlt className="text-2xl text-orange-500 shrink-0" />
-                <h1 className="font-bold text-xl text-gray-900 whitespace-nowrap">
-                  Resume Builder
-                </h1>
-              </div>
               <button
                 onClick={() => setCollapsed(!collapsed)}
-                className="text-2xl text-gray-600 hover:text-orange-500 transition-colors shrink-0"
+                className="flex items-center gap-2 overflow-hidden group text-left"
+                aria-label="Collapse sidebar"
+              >
+                <FaRegFileAlt className="text-2xl text-orange-500 shrink-0 group-hover:text-orange-600 transition-colors" />
+                <h1 className="font-bold text-xl text-gray-900 whitespace-nowrap group-hover:text-gray-700 transition-colors">
+                  Resume Builder
+                </h1>
+              </button>
+              <button
+                onClick={() => setCollapsed(!collapsed)}
+                className="text-2xl text-gray-600 hover:text-orange-500 transition-colors shrink-0 hidden md:block"
                 aria-label="Collapse sidebar"
               >
                 <IoClose />
