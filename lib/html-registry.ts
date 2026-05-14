@@ -4,6 +4,7 @@ import { ClassicHtmlTemplate } from "@/components/templates/classic-preview"
 import { CreativeHtmlTemplate } from "@/components/templates/creative-preview"
 import { MinimalHtmlTemplate } from "@/components/templates/minimal-preview"
 import { ModernHtmlTemplate } from "@/components/templates/modern-preview"
+import { BestHtmlTemplate } from "@/components/templates/best-preview"
 
 // Type for each PDF template entry
 export type PdfTemplateEntry = {
@@ -14,6 +15,11 @@ export type PdfTemplateEntry = {
 
 // Record type mapping string keys to template entries
 export const htmlTemplates: Record<string, PdfTemplateEntry> = {
+  "best-1col": {
+    name: "Best 1-Column",
+    description: "Professional single-column LaTeX style format",
+    component: BestHtmlTemplate,
+  },
   "modern-2col": {
     name: "Modern 2-Column",
     description: "Clean and modern with sidebar layout",

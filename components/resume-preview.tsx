@@ -6,6 +6,7 @@ import type { ResumeData } from "@/lib/resume"
 import { htmlTemplates } from "@/lib/html-registry"
 import { FiFileText } from "react-icons/fi"
 import { BiZoomIn, BiZoomOut } from "react-icons/bi"
+import { useTemplate } from "@/context/TemplateContext"
 
 type ResumePreviewProps = {
   data: ResumeData
@@ -14,6 +15,7 @@ type ResumePreviewProps = {
 
 
 export function ResumePreview({ data, template }: ResumePreviewProps) {
+  const { setSelectedTemplate } = useTemplate()
   const TemplateComponent = htmlTemplates[template]?.component || htmlTemplates["modern-2col"].component
 
   return (
@@ -29,7 +31,18 @@ export function ResumePreview({ data, template }: ResumePreviewProps) {
             <p className="text-xs text-gray-500">Live preview of your resume</p>
           </div>
         </div>
-        <DownloadPdfButton data={data} template={template} />
+        <div className="flex items-center gap-4">
+          <select 
+            value={template} 
+            onChange={(e) => setSelectedTemplate(e.target.value)}
+            className="px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
+          >
+            {Object.entries(htmlTemplates).map(([key, temp]) => (
+              <option key={key} value={key}>{temp.name}</option>
+            ))}
+          </select>
+          <DownloadPdfButton data={data} template={template} />
+        </div>
       </div>
 
       {/* Preview Container */}
