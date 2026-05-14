@@ -23,9 +23,25 @@ export interface Education {
 
 export type Skill = string;
 
+export interface Project {
+  name: string;
+  description: string;
+  url?: string;
+  urlLabel?: string;
+}
+
+export interface Certification {
+  name: string;
+  date: string;
+  url?: string;
+  bullets?: string[];
+}
+
 export interface ResumeData {
   personal: PersonalInfo;
   experience: Experience[];
   education: Education[];
   skills: Skill[];
+  projects?: Project[];
+  certifications?: Certification[];
 }

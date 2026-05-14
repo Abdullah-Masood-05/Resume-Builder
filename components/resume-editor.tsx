@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, ChangeEvent } from "react"
-import { User, Briefcase, GraduationCap, Code, Plus, Trash2, Mail, Phone, MapPin, FileText } from "lucide-react"
+import { User, Briefcase, GraduationCap, Code, Plus, Trash2, Mail, Phone, MapPin, FileText, FolderGit2 } from "lucide-react"
 
 type PersonalInfo = {
   fullName: string
@@ -26,11 +26,19 @@ type Education = {
   graduationYear: string
 }
 
+type Project = {
+  name: string
+  description: string
+  url?: string
+  urlLabel?: string
+}
+
 type ResumeData = {
   personal: PersonalInfo
   experience: Experience[]
   education: Education[]
   skills: string[]
+  projects?: Project[]
 }
 
 type ResumeEditorProps = {
@@ -39,7 +47,7 @@ type ResumeEditorProps = {
 }
 
 export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
-  const [activeSection, setActiveSection] = useState<"personal" | "experience" | "education" | "skills">("personal")
+  const [activeSection, setActiveSection] = useState<"personal" | "experience" | "education" | "skills" | "projects">("personal")
 
   const updatePersonal = (field: keyof PersonalInfo, value: string) => {
     onChange({
@@ -90,10 +98,30 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
     onChange({ ...data, education: updatedEducation })
   }
 
+  const updateProject = (index: number, field: keyof Project, value: string) => {
+    const updated = [...(data.projects || [])]
+    updated[index] = { ...updated[index], [field]: value }
+    onChange({ ...data, projects: updated })
+  }
+
+  const addProject = () => {
+    onChange({
+      ...data,
+      projects: [...(data.projects || []), { name: "", description: "", url: "", urlLabel: "" }],
+    })
+  }
+
+  const removeProject = (index: number) => {
+    const updatedProjects = [...(data.projects || [])]
+    updatedProjects.splice(index, 1)
+    onChange({ ...data, projects: updatedProjects })
+  }
+
   const sections = [
     { id: "personal", label: "Personal", icon: User },
     { id: "experience", label: "Experience", icon: Briefcase },
     { id: "education", label: "Education", icon: GraduationCap },
+    { id: "projects", label: "Projects", icon: FolderGit2 },
     { id: "skills", label: "Skills", icon: Code },
   ]
 
@@ -464,6 +492,100 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
                 </div>
               </div>
             )}
+          </section>
+        )}
+
+        {activeSection === "projects" && (
+          <section className="flex-1 mb-[250px] space-y-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                  <FolderGit2 className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Projects</h2>
+                  <p className="text-sm text-gray-500">Add your key projects</p>
+                </div>
+              </div>
+              <button
+                onClick={addProject}
+                className="flex items-center gap-2 px-4 py-2.5 bg-linear-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:from-orange-600 hover:to-orange-700 transition-all shadow-md hover:shadow-lg"
+              >
+                <Plus className="w-4 h-4" />
+                Add Project
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {!(data.projects && data.projects.length > 0) ? (
+                <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                  <FolderGit2 className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-500 font-medium">No projects added yet</p>
+                  <p className="text-sm text-gray-400 mt-1">Click Add Project to get started</p>
+                </div>
+              ) : (
+                data.projects.map((proj, i) => (
+                  <div key={i} className="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-all space-y-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
+                        Project #{i + 1}
+                      </span>
+                      <button
+                        onClick={() => removeProject(i)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-all"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Project Name</label>
+                      <input
+                        type="text"
+                        placeholder="Project Name"
+                        value={proj.name}
+                        onChange={(e) => updateProject(i, "name", e.target.value)}
+                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Project Link (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="https://github.com/..."
+                          value={proj.url || ""}
+                          onChange={(e) => updateProject(i, "url", e.target.value)}
+                          className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Link Label (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="GitHub"
+                          value={proj.urlLabel || ""}
+                          onChange={(e) => updateProject(i, "urlLabel", e.target.value)}
+                          className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Description</label>
+                      <textarea
+                        placeholder="Describe your project, technologies used, and your role..."
+                        value={proj.description}
+                        onChange={(e) => updateProject(i, "description", e.target.value)}
+                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent min-h-24 resize-none"
+                      />
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </section>
         )}
       </div>

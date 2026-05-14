@@ -46,8 +46,33 @@ export function ModernHtmlTemplate({ data }: ModernMinimalHtmlProps) {
                 {safe(exp.company)}
               </p>
 
-              <p className="text-sm text-gray-700 mt-1">
+              <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap">
                 {safe(exp.description)}
+              </p>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {Array.isArray(data.projects) && data.projects.length > 0 && (
+        <section className="mb-10">
+          <h2 className="text-lg font-semibold mb-4 tracking-wide">
+            Projects
+          </h2>
+
+          {data.projects.map((proj, i) => (
+            <div key={i} className="mb-6">
+              <div className="flex justify-between text-sm font-medium">
+                <span>{safe(proj.name)}</span>
+                {proj.url && (
+                  <a href={proj.url} className="text-blue-600 hover:underline">
+                    {safe(proj.urlLabel || "Link")}
+                  </a>
+                )}
+              </div>
+
+              <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap">
+                {safe(proj.description)}
               </p>
             </div>
           ))}
