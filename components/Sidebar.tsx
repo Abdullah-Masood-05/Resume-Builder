@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FaRegFileAlt, FaUser, FaBriefcase, FaFileAlt, FaSignOutAlt, FaCheckCircle } from "react-icons/fa";
@@ -15,27 +15,32 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, logout } = useAuth();
 
+  const sidebarRef = useRef<HTMLElement>(null);
+
   // Handle mounting to prevent hydration issues
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Auto-collapse sidebar when on "/resume" path
+  // Collapse sidebar when clicking outside
   useEffect(() => {
-    if (pathname === "/resume") {
-      setCollapsed(true);
-    } else {
-      setCollapsed(false);
+    function handleClickOutside(event: MouseEvent) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        if (!collapsed) {
+          setCollapsed(true);
+        }
+      }
     }
-  }, [pathname]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [collapsed]);
 
   // Hide sidebar on auth pages
   if (pathname === "/auth/login" || pathname === "/auth/register") {
     return <>{children}</>;
   }
-
-  // Determine if we should hide the toggle button
-  const shouldHideToggleButton = pathname === "/resume";
 
   const handleLogout = () => {
     logout();
@@ -48,17 +53,15 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
     if (user.role === "recruiter") {
       return [
-        { href: "/dashboard", icon: <FaBriefcase />, label: "Dashboard" },
+        { href: "/dashboard", icon: <FaUser />, label: "Dashboard" },
         { href: "/recruiter/jobs", icon: <FaRegFileAlt />, label: "My Jobs" },
-        { href: "/profile", icon: <FaUser />, label: "Profile" },
       ];
     } else {
       return [
-        { href: "/dashboard", icon: <FaBriefcase />, label: "Dashboard" },
+        { href: "/dashboard", icon: <FaUser />, label: "Dashboard" },
         { href: "/candidate/jobs", icon: <FaBriefcase />, label: "Browse Jobs" },
         { href: "/candidate/applications", icon: <FaCheckCircle />, label: "My Applications" },
         { href: "/resume", icon: <HiTemplate />, label: "Build Resume" },
-        { href: "/profile", icon: <FaUser />, label: "Profile" },
       ];
     }
   };
@@ -69,6 +72,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
+        ref={sidebarRef}
         className={`fixed top-0 left-0 h-full bg-white border-r border-gray-200 shadow-sm transition-all duration-300 flex flex-col z-50 ${collapsed ? "w-20" : "w-64"
           }`}
       >
@@ -77,15 +81,13 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           {collapsed ? (
             <>
               <FaRegFileAlt className="text-2xl text-orange-500 shrink-0" />
-              {!shouldHideToggleButton && (
-                <button
-                  onClick={() => setCollapsed(!collapsed)}
-                  className="text-2xl text-gray-600 hover:text-orange-500 transition-colors"
-                  aria-label="Expand sidebar"
-                >
-                  <IoMenu />
-                </button>
-              )}
+              <button
+                onClick={() => setCollapsed(!collapsed)}
+                className="text-2xl text-gray-600 hover:text-orange-500 transition-colors"
+                aria-label="Expand sidebar"
+              >
+                <IoMenu />
+              </button>
             </>
           ) : (
             <>
@@ -95,15 +97,13 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   Resume Builder
                 </h1>
               </div>
-              {!shouldHideToggleButton && (
-                <button
-                  onClick={() => setCollapsed(!collapsed)}
-                  className="text-2xl text-gray-600 hover:text-orange-500 transition-colors shrink-0"
-                  aria-label="Collapse sidebar"
-                >
-                  <IoClose />
-                </button>
-              )}
+              <button
+                onClick={() => setCollapsed(!collapsed)}
+                className="text-2xl text-gray-600 hover:text-orange-500 transition-colors shrink-0"
+                aria-label="Collapse sidebar"
+              >
+                <IoClose />
+              </button>
             </>
           )}
         </div>
