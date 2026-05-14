@@ -73,7 +73,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`fixed top-0 left-0 h-full bg-white border-r border-gray-200 shadow-sm transition-all duration-300 flex flex-col z-50 ${collapsed ? "w-20" : "w-64"
+        className={`fixed top-0 left-0 h-full bg-white border-r border-gray-200 shadow-sm transition-all duration-300 flex flex-col z-50 ${collapsed ? "w-16 md:w-20" : "w-64"
           }`}
       >
         {/* Header */}
@@ -110,7 +110,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 flex flex-col px-3 py-4 space-y-1">
+        <nav className="flex-1 flex flex-col px-2 md:px-3 py-4 space-y-1">
           {navItems.map((item) => (
             <SidebarItem
               key={item.href}
@@ -125,7 +125,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
         {/* User Info & Logout */}
         {mounted && user && (
-          <div className="px-3 py-4 border-t border-gray-200">
+          <div className="px-2 md:px-3 py-4 border-t border-gray-200">
             {!collapsed && (
               <div className="mb-3 px-2">
                 <p className="text-xs text-gray-500 mb-1">Logged in as</p>
@@ -135,7 +135,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             )}
             <button
               onClick={handleLogout}
-              className={`w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 transition-all ${collapsed ? "justify-center" : ""
+              className={`w-full flex items-center gap-3 px-2 md:px-3 py-2 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 transition-all ${collapsed ? "justify-center" : ""
                 }`}
             >
               <FaSignOutAlt className="text-lg shrink-0" />
@@ -150,17 +150,17 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             className={`text-xs text-gray-500 text-center transition-all duration-300 ${collapsed ? "opacity-0" : "opacity-100"
               }`}
           >
-            © {new Date().getFullYear()} Resume Builder
+            © {new Date().getFullYear()}
           </p>
         </div>
       </aside>
 
       {/* Main Content */}
       <main
-        className={`flex-1 transition-all duration-300 ${collapsed ? "ml-20" : "ml-64"
+        className={`flex-1 transition-all duration-300 min-w-0 ${collapsed ? "ml-16 md:ml-20" : "ml-64"
           }`}
       >
-        <div className="p-6 md:p-8">
+        <div className="p-4 md:p-6 lg:p-8">
           {children}
         </div>
       </main>
