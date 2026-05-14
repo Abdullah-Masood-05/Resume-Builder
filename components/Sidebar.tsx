@@ -118,7 +118,6 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               label={item.label}
               collapsed={collapsed}
               active={pathname === item.href}
-              isResumePath={pathname === "/resume"}
             />
           ))}
         </nav>
@@ -174,29 +173,27 @@ function SidebarItem({
   label,
   collapsed,
   active,
-  isResumePath,
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
   collapsed: boolean;
   active: boolean;
-  isResumePath?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${active && !isResumePath
-        ? "bg-orange-50 text-orange-600 border border-orange-200"
-        : isResumePath
-          ? "text-gray-500" // Different styling for resume path
+      className={`flex items-center gap-3 px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+        active
+          ? "bg-orange-50 text-orange-600 border border-orange-200"
           : "text-gray-700 hover:bg-gray-100 hover:text-orange-600"
-        } ${collapsed ? "justify-center" : ""}`}
+      } ${collapsed ? "justify-center" : ""}`}
     >
       <div className="text-[28px] shrink-0">{icon}</div>
       <span
-        className={`whitespace-nowrap transition-all duration-300 ${collapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100 w-auto"
-          }`}
+        className={`whitespace-nowrap transition-all duration-300 ${
+          collapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100 w-auto"
+        }`}
       >
         {label}
       </span>
