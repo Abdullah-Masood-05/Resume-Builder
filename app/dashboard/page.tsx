@@ -63,12 +63,12 @@ export default function ProfilePage() {
   <div className="max-w-6xl mx-auto">
 
     {/* Header Section */}
-    <div className="relative mb-8">
-      <div className="h-48 bg-gradient-to-r from-orange-800 via-amber-800 to-yellow-800 rounded-2xl"></div>
+    <div className="relative mb-8 sm:mb-12">
+      <div className="h-32 sm:h-48 bg-gradient-to-r from-orange-800 via-amber-800 to-yellow-800 rounded-2xl"></div>
 
-      <div className="absolute -bottom-16 left-8 flex items-end gap-6">
+      <div className="absolute -bottom-12 sm:-bottom-16 left-4 sm:left-8 flex items-end gap-6">
         <div className="relative group">
-          <div className="w-32 h-32 bg-gradient-to-br from-orange-500 to-amber-800 rounded-2xl flex items-center justify-center text-white text-5xl font-bold shadow-xl border-4 border-white">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-orange-500 to-amber-800 rounded-2xl flex items-center justify-center text-white text-4xl sm:text-5xl font-bold shadow-xl border-4 border-white">
             {user.fullName.charAt(0).toUpperCase()}
           </div>
           <button className="absolute bottom-2 right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
@@ -77,21 +77,22 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <button className="absolute top-4 right-4 px-4 py-2 bg-white/50 backdrop-blur-sm text-orange-600 rounded-lg flex items-center gap-2 hover:bg-white/80 transition-colors font-medium shadow">
+      <button className="absolute top-4 right-4 px-3 sm:px-4 py-1.5 sm:py-2 bg-white/50 backdrop-blur-sm text-orange-600 rounded-lg flex items-center gap-2 hover:bg-white/80 transition-colors text-sm sm:text-base font-medium shadow">
         <FaEdit className="text-sm" />
-        Edit Profile
+        <span className="hidden sm:inline">Edit Profile</span>
+        <span className="sm:hidden">Edit</span>
       </button>
     </div>
 
     {/* Name Section */}
-    <div className="ml-44 mb-8">
-      <div className="flex items-center gap-3">
-        <h1 className="text-3xl font-bold text-gray-900">{user.fullName}</h1>
+    <div className="ml-32 sm:ml-44 mb-8 pt-2 sm:pt-0">
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{user.fullName}</h1>
         <FaCheckCircle className="text-orange-500" />
       </div>
-      <p className="text-gray-600 capitalize flex items-center gap-2 mt-1">
+      <p className="text-sm sm:text-base text-gray-600 capitalize flex items-center gap-2 mt-1">
         <FaBriefcase className="text-sm text-orange-400" />
-        {user.role} • San Francisco, CA
+        {user.role} <span className="hidden sm:inline">• San Francisco, CA</span>
       </p>
     </div>
 
