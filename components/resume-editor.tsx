@@ -140,7 +140,7 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
         </div>
         
         {/* Navigation Tabs */}
-        <nav className="flex gap-2">
+        <nav className="flex gap-2 overflow-x-auto pb-2 -mb-2 scrollbar-hide">
           {sections.map((section) => {
         const Icon = section.icon
         const isActive = activeSection === section.id
