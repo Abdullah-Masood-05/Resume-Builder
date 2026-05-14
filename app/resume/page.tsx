@@ -11,8 +11,8 @@ export default function Home() {
   const { selectedTemplate } = useTemplate()
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
-      <div className="grid grid-cols-2 sticky top-[30px] overflow-hidden gap-6">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:sticky top-[30px] overflow-hidden gap-6">
         <ResumeEditor data={resumeData} onChange={setResumeData} />
         
         <ResumePreview data={resumeData} template={selectedTemplate} />
