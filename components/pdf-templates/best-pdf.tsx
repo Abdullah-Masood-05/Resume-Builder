@@ -157,9 +157,7 @@ export function BestPdfTemplate({ data }: BestPdfTemplateProps) {
               <View style={styles.itemHeader}>
                 <Text style={styles.itemTitle}>{safeText(edu.school)}</Text>
                 <Text style={styles.itemDate}>
-                  {safeText(edu.startDate) && safeText(edu.endDate) 
-                    ? `${safeText(edu.startDate)} – ${safeText(edu.endDate)}`
-                    : safeText(edu.graduationYear)}
+                  {safeText(edu.graduationYear)}
                 </Text>
               </View>
               <View style={styles.bulletList}>

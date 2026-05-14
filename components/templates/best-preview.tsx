@@ -165,7 +165,7 @@ export function BestHtmlTemplate({ data }: BestHtmlTemplateProps) {
             <div key={i} style={{ marginBottom: "12pt" }}>
               <EntryHeader 
                 left={safe(edu.school)} 
-                right={safe(edu.startDate) && safe(edu.endDate) ? `${safe(edu.startDate)} – ${safe(edu.endDate)}` : safe(edu.graduationYear)} 
+                right={safe(edu.graduationYear)} 
               />
               <BulletList>
                 <BulletItem>
