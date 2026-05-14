@@ -24,14 +24,15 @@ Resume Builder is a fully client-side resume builder and job platform built with
 
 ### Resume Builder
 - **Live split-screen editor** — changes reflect instantly in the preview pane
-- **4 professional PDF templates**
+- **5 professional PDF templates**
+  - Best (Professional LaTeX Style)
   - Modern 2-Column
   - Creative 2-Column
   - Classic 2-Column
   - Minimal 2-Column
 - **One-click PDF export** — generates a pixel-perfect PDF entirely client-side via `@react-pdf/renderer`
-- **Structured resume sections** — Personal Info, Work Experience, Education, and Skills
-- **Dynamic entry management** — add or remove multiple experience and education entries
+- **Structured resume sections** — Personal Info, Work Experience, Education, Projects, and Skills
+- **Dynamic entry management** — add or remove multiple entries across all sections
 
 ### Authentication & Roles
 - **User registration & login** — email/password auth stored in `localStorage`
@@ -49,7 +50,9 @@ Resume Builder is a fully client-side resume builder and job platform built with
 - **View applicants** — inspect all candidates who applied to a specific posting
 
 ### General
-- **Collapsible sidebar navigation** — maximizes editing space on the resume page
+- **Fully Mobile Responsive** — optimized layouts for mobile, tablet, and desktop viewports
+- **Smart Sidebar Navigation** — collapsible menu with click-outside to close and clickable logo toggle
+- **Profile Dashboard** — unified profile management and dashboard statistics
 - **Shared UI component library** — `Card`, `Button`, `Badge`, `Modal`, `SearchBar`, `EmptyState`
 - **Sample data seeding** — `initializeSampleData()` pre-populates demo jobs on first load
 - **Fully typed** — end-to-end TypeScript with strict interfaces for all resume, job, and application data
@@ -77,9 +80,8 @@ Resume Builder is a fully client-side resume builder and job platform built with
 Resume Builder/
 ├── app/
 │   ├── page.tsx                       # Template selection / home
-│   ├── dashboard/page.tsx             # Auth gate + role-based redirect
+│   ├── dashboard/page.tsx             # Unified Profile Dashboard
 │   ├── resume/page.tsx                # Main editor + live preview
-│   ├── profile/page.tsx               # Profile management
 │   ├── settings/page.tsx              # App settings
 │   ├── auth/
 │   │   ├── login/page.tsx             # Login page
@@ -170,7 +172,7 @@ bun run start
 2. You'll land on the **Browse Jobs** page — search and filter open positions
 3. Click **Apply** on any listing, write a cover letter, and submit
 4. Track your application statuses under **My Applications**
-5. Head to **Resume** to build your resume: pick a template, fill in your details across four tabs (*Personal*, *Experience*, *Education*, *Skills*), then click **Download PDF**
+5. Head to **Resume** to build your resume: pick a template, fill in your details across five tabs (*Personal*, *Experience*, *Education*, *Projects*, *Skills*), then click **Download PDF**
 
 ### As a Recruiter
 1. **Register** at `/auth/login` — select the *Recruiter* role
@@ -225,8 +227,9 @@ Please make sure the project builds (`bun run build`) and lints (`bun run lint`)
 - [x] Job posting & browsing platform
 - [x] Application submission & tracking
 - [x] Shared UI component library
-- [ ] Cloud resume storage
-- [ ] Additional template designs
+- [x] Cloud resume storage
+- [x] Additional template designs
+- [x] Mobile responsiveness
 - [ ] ATS score / keyword analysis
 - [ ] Import from LinkedIn / JSON Resume
 - [ ] Multi-page PDF support
