@@ -1,12 +1,12 @@
 {
   "productName": "Resume Builder",
   "version": "0.1.0",
-  "identifier": "com.resumebuilder.app",
+  "identifier": "com.resumebuilder.desktop",
   "build": {
     "beforeBuildCommand": "bun run build",
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:3000",
-    "frontendDist": "../.next"
+    "frontendDist": "../out"
   },
   "app": {
     "windows": [
