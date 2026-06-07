@@ -37,8 +37,13 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
     };
   }, [collapsed]);
 
-  // Hide sidebar on auth pages
-  if (pathname === "/auth/login" || pathname === "/auth/register") {
+  // Hide sidebar on auth pages, landing page, and standalone resume builder
+  if (
+    pathname === "/auth/login" ||
+    pathname === "/auth/register" ||
+    pathname === "/" ||
+    (pathname === "/resume" && !user)
+  ) {
     return <>{children}</>;
   }
 
