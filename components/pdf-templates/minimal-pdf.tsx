@@ -1,6 +1,7 @@
 // components/pdf-templates/one-col-pdf.jsx
 import { Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { ResumeData } from "@/lib/resume";
+import { projectLinks } from "@/lib/text-format";
 
 export interface OneColPdfProps {
   data: ResumeData;
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
 export function MinimalPdfTemplate({ data }: OneColPdfProps) {
   const safe = (v?: string) => v || "-";
   const certifications = data.certifications || [];
+  const projects = data.projects || [];
 
   return (
     <Page size="A4" style={styles.page}>
@@ -107,6 +109,28 @@ export function MinimalPdfTemplate({ data }: OneColPdfProps) {
               </View>
               <Text style={styles.bold}>{safe(e.company)}</Text>
               <Text style={styles.description}>{safe(e.description)}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {projects.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Projects</Text>
+          {projects.map((proj, i) => (
+            <View key={i} style={styles.expItem}>
+              <View style={styles.row}>
+                <Text style={[styles.bold, { flexGrow: 1, flexShrink: 1, flexBasis: 0, paddingRight: 8 }]}>
+                  {safe(proj.name)}
+                </Text>
+                <Text style={{ flexShrink: 0 }}>
+                  {proj.date || projectLinks(proj).map((l) => l.label).join(" | ")}
+                </Text>
+              </View>
+              <Text style={styles.description}>{safe(proj.description)}</Text>
+              {proj.techStack ? (
+                <Text style={styles.description}>Tech Stack: {proj.techStack}</Text>
+              ) : null}
             </View>
           ))}
         </View>

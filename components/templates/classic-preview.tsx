@@ -1,6 +1,7 @@
 // components/html-templates/classic-html.tsx
 import React from "react";
 import type { ResumeData } from "@/lib/resume";
+import { projectLinks } from "@/lib/text-format";
 
 export interface ClassicPdfTemplateProps {
   data: ResumeData;
@@ -53,6 +54,28 @@ export function ClassicHtmlTemplate({ data }: ClassicPdfTemplateProps) {
                   </div>
                   <div className="text-sm font-semibold">{safe(exp.company)}</div>
                   <p className="text-sm text-gray-700">{safe(exp.description)}</p>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {Array.isArray(data.projects) && data.projects.length > 0 && (
+            <section className="mb-6">
+              <h2 className="uppercase text-sm font-bold mb-3">Projects</h2>
+              {data.projects.map((proj, i) => (
+                <div key={i} className="mb-3">
+                  <div className="flex justify-between text-sm font-bold gap-2">
+                    <span>{safe(proj.name)}</span>
+                    <span className="text-gray-600 whitespace-nowrap">
+                      {proj.date || projectLinks(proj).map((l) => l.label).join(" | ")}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 whitespace-pre-wrap">{safe(proj.description)}</p>
+                  {proj.techStack && (
+                    <p className="text-sm text-gray-700">
+                      <span className="font-bold">Tech Stack:</span> {proj.techStack}
+                    </p>
+                  )}
                 </div>
               ))}
             </section>

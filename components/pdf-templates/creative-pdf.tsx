@@ -1,6 +1,7 @@
 // components/pdf-templates/creative-pdf.jsx
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import type { ResumeData } from "@/lib/resume";
+import { projectLinks } from "@/lib/text-format";
 
 export interface CreativePdfTemplateProps {
    data: ResumeData;
@@ -178,6 +179,7 @@ export function CreativePdfTemplate({ data }: CreativePdfTemplateProps) {
   const experienceItems = (data.experience || []).filter(Boolean);
   const educationItems = (data.education || []).filter(Boolean);
   const certificationItems = (data.certifications || []).filter(Boolean);
+  const projectItems = (data.projects || []).filter(Boolean);
   const skillsItems = (data.skills || []).filter(Boolean);
 
   return (
@@ -287,20 +289,31 @@ export function CreativePdfTemplate({ data }: CreativePdfTemplateProps) {
           </View>
 
           {/* Portfolio Section */}
+          {projectItems.length > 0 && (
           <View style={styles.portfolioSection}>
             <View style={styles.sectionTitle}>
               <View style={styles.sectionTitleDot} />
               <Text>Featured Projects</Text>
             </View>
-            <View style={styles.portfolioItem}>
-              <Text style={styles.portfolioTitle}>Project Title 1</Text>
-              <Text style={styles.portfolioDesc}>Brief description of the project</Text>
-            </View>
-            <View style={styles.portfolioItem}>
-              <Text style={styles.portfolioTitle}>Project Title 2</Text>
-              <Text style={styles.portfolioDesc}>Brief description of the project</Text>
-            </View>
+            {projectItems.map((proj, i) => (
+              <View key={i} style={styles.portfolioItem}>
+                <Text style={styles.portfolioTitle}>
+                  {safeText(proj.name)}
+                  {proj.date ? ` — ${proj.date}` : ''}
+                </Text>
+                {projectLinks(proj).length > 0 && (
+                  <Text style={styles.portfolioDesc}>
+                    {projectLinks(proj).map((l) => l.label).join('  •  ')}
+                  </Text>
+                )}
+                <Text style={styles.portfolioDesc}>{safeText(proj.description)}</Text>
+                {proj.techStack ? (
+                  <Text style={styles.portfolioDesc}>Tech Stack: {proj.techStack}</Text>
+                ) : null}
+              </View>
+            ))}
           </View>
+          )}
         </View>
       </View>
 

@@ -1,6 +1,6 @@
 import React from "react"
-import type { Certification, Project, ResumeData, ResumeLink } from "@/lib/resume"
-import { splitLabel, splitLines } from "@/lib/text-format"
+import type { Certification, ResumeData, ResumeLink } from "@/lib/resume"
+import { projectLinks, splitLabel, splitLines } from "@/lib/text-format"
 import { FaEnvelope, FaGithub, FaGlobe, FaLink, FaLinkedin } from "react-icons/fa"
 
 export interface CharterHtmlTemplateProps {
@@ -305,12 +305,6 @@ function stripProtocol(url: string, pattern: RegExp) {
 function joinDates(start?: string, end?: string) {
   if (start && end) return `${start} – ${end}`
   return start || end || ""
-}
-
-function projectLinks(project: Project): ResumeLink[] {
-  if (project.links?.length) return project.links
-  if (project.url) return [{ label: project.urlLabel || "Link", url: project.url }]
-  return []
 }
 
 function certificationLinks(cert: Certification): ResumeLink[] {

@@ -1,7 +1,7 @@
 import React from "react"
 import { Font, Link, Page, Path, StyleSheet, Svg, Text, View } from "@react-pdf/renderer"
-import type { Certification, Project, ResumeData, ResumeLink } from "@/lib/resume"
-import { splitLabel, splitLines } from "@/lib/text-format"
+import type { Certification, ResumeData, ResumeLink } from "@/lib/resume"
+import { projectLinks, splitLabel, splitLines } from "@/lib/text-format"
 
 export interface CharterPdfTemplateProps {
   data: ResumeData
@@ -366,12 +366,6 @@ function stripProtocol(url: string, pattern: RegExp) {
 function joinDates(start?: string, end?: string) {
   if (start && end) return `${start} – ${end}`
   return start || end || ""
-}
-
-function projectLinks(project: Project): ResumeLink[] {
-  if (project.links?.length) return project.links
-  if (project.url) return [{ label: project.urlLabel || "Link", url: project.url }]
-  return []
 }
 
 function certificationLinks(cert: Certification): ResumeLink[] {

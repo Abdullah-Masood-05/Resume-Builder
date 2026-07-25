@@ -1,3 +1,5 @@
+import type { Project, ResumeLink } from "./resume"
+
 /** Splits a multi-line description field into trimmed, non-empty bullet lines. */
 export function splitLines(text?: string): string[] {
   return (text || "")
@@ -21,4 +23,14 @@ export function splitLabel(line: string): { label?: string; text: string } {
   if (conventional) return { label: `${conventional[1]}:`, text: conventional[2] }
 
   return { text: line }
+}
+
+/**
+ * Normalises a project's links into one list, so templates don't each have to handle
+ * both the multi-link `links` array and the older single `url` / `urlLabel` pair.
+ */
+export function projectLinks(project: Project): ResumeLink[] {
+  if (project.links?.length) return project.links
+  if (project.url) return [{ label: project.urlLabel || "Link", url: project.url }]
+  return []
 }

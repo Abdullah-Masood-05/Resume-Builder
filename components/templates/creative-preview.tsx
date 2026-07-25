@@ -1,5 +1,6 @@
 // components/html-templates/creative-html.tsx
 import type { ResumeData } from "@/lib/resume";
+import { projectLinks } from "@/lib/text-format";
 
 export interface CreativePdfTemplateProps {
    data: ResumeData;
@@ -118,21 +119,46 @@ export function CreativeHtmlTemplate({ data }: CreativePdfTemplateProps) {
           </section>
 
           {/* Portfolio Section */}
-          <section>
-            <h2 className="text-xl font-bold border-b-2 border-emerald-500 pb-1 mb-3 flex items-center">
-              <span className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></span>
-              Featured Projects
-            </h2>
-            <div className="grid grid-cols-2 gap-3">
-              {[1, 2].map((item) => (
-                <div key={item} className="border border-gray-200 rounded p-2 bg-gray-50">
-                  <div className="bg-gray-200 border border-dashed rounded w-full h-16 mb-1" />
-                  <h3 className="font-semibold text-xs">Project Title</h3>
-                  <p className="text-xs text-gray-600">Brief description</p>
+          {Array.isArray(data.projects) && data.projects.length > 0 && (
+            <section>
+              <h2 className="text-xl font-bold border-b-2 border-emerald-500 pb-1 mb-3 flex items-center">
+                <span className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></span>
+                Featured Projects
+              </h2>
+              {data.projects.map((proj, i) => (
+                <div key={i} className="mb-3 border border-gray-200 rounded p-3 bg-gray-50">
+                  <div className="flex justify-between items-start gap-2">
+                    <h3 className="font-bold text-emerald-700 text-sm">{safe(proj.name)}</h3>
+                    {proj.date && (
+                      <span className="text-xs font-medium bg-emerald-100 text-emerald-800 px-2 py-1 rounded whitespace-nowrap">
+                        {proj.date}
+                      </span>
+                    )}
+                  </div>
+
+                  {projectLinks(proj).length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {projectLinks(proj).map((link, j) => (
+                        <a key={j} href={link.url} className="text-xs text-emerald-600 underline">
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  <p className="mt-1 text-sm text-gray-600 whitespace-pre-wrap">
+                    {safe(proj.description)}
+                  </p>
+
+                  {proj.techStack && (
+                    <p className="mt-1 text-xs text-gray-700">
+                      <span className="font-bold">Tech Stack:</span> {proj.techStack}
+                    </p>
+                  )}
                 </div>
               ))}
-            </div>
-          </section>
+            </section>
+          )}
         </main>
       </div>
 
