@@ -4,6 +4,7 @@ import { ModernPdfTemplate } from "@/components/pdf-templates/modern-pdf"
 import type { ResumeData } from "./resume"
 import { CreativePdfTemplate } from "@/components/pdf-templates/creative-pdf"
 import { BestPdfTemplate } from "@/components/pdf-templates/best-pdf"
+import { CharterPdfTemplate } from "@/components/pdf-templates/charter-pdf"
 
 // Type for each PDF template entry
 export type PdfTemplateEntry = {
@@ -14,6 +15,11 @@ export type PdfTemplateEntry = {
 
 // Record type mapping string keys to template entries
 export const pdfTemplates: Record<string, PdfTemplateEntry> = {
+  "charter-1col": {
+    name: "Charter 1-Column",
+    description: "Compact LaTeX Charter CV with ruled sections",
+    component: CharterPdfTemplate,
+  },
   "best-1col": {
     name: "Best 1-Column",
     description: "Professional single-column LaTeX style format",

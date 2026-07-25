@@ -1,45 +1,8 @@
 "use client"
 
 import { useState, ChangeEvent } from "react"
-import { User, Briefcase, GraduationCap, Code, Plus, Trash2, Mail, Phone, MapPin, FileText, FolderGit2 } from "lucide-react"
-
-type PersonalInfo = {
-  fullName: string
-  email: string
-  phone: string
-  location: string
-  summary: string
-}
-
-type Experience = {
-  company: string
-  position: string
-  startDate: string
-  endDate: string
-  description: string
-}
-
-type Education = {
-  school: string
-  degree: string
-  field: string
-  graduationYear: string
-}
-
-type Project = {
-  name: string
-  description: string
-  url?: string
-  urlLabel?: string
-}
-
-type ResumeData = {
-  personal: PersonalInfo
-  experience: Experience[]
-  education: Education[]
-  skills: string[]
-  projects?: Project[]
-}
+import { User, Briefcase, GraduationCap, Code, Plus, Trash2, Mail, Phone, MapPin, FileText, FolderGit2, Linkedin, Github, Globe } from "lucide-react"
+import type { Education, Experience, PersonalInfo, Project, ResumeData } from "@/lib/resume"
 
 type ResumeEditorProps = {
   data: ResumeData
@@ -227,6 +190,49 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
                   placeholder="New York, NY"
                   value={data.personal.location}
                   onChange={(e) => updatePersonal("location", e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <Linkedin className="w-4 h-4 text-orange-500" />
+                    LinkedIn
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://www.linkedin.com/in/jane-doe"
+                    value={data.personal.linkedin || ""}
+                    onChange={(e) => updatePersonal("linkedin", e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <Github className="w-4 h-4 text-orange-500" />
+                    GitHub
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://github.com/JaneDoe"
+                    value={data.personal.github || ""}
+                    onChange={(e) => updatePersonal("github", e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-orange-500" />
+                  Website / Portfolio
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://jane-doe.vercel.app"
+                  value={data.personal.website || ""}
+                  onChange={(e) => updatePersonal("website", e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                 />
               </div>

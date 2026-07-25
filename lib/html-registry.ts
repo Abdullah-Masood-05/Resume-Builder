@@ -5,6 +5,7 @@ import { CreativeHtmlTemplate } from "@/components/templates/creative-preview"
 import { MinimalHtmlTemplate } from "@/components/templates/minimal-preview"
 import { ModernHtmlTemplate } from "@/components/templates/modern-preview"
 import { BestHtmlTemplate } from "@/components/templates/best-preview"
+import { CharterHtmlTemplate } from "@/components/templates/charter-preview"
 
 // Type for each PDF template entry
 export type PdfTemplateEntry = {
@@ -15,6 +16,11 @@ export type PdfTemplateEntry = {
 
 // Record type mapping string keys to template entries
 export const htmlTemplates: Record<string, PdfTemplateEntry> = {
+  "charter-1col": {
+    name: "Charter 1-Column",
+    description: "Compact LaTeX Charter CV with ruled sections",
+    component: CharterHtmlTemplate,
+  },
   "best-1col": {
     name: "Best 1-Column",
     description: "Professional single-column LaTeX style format",

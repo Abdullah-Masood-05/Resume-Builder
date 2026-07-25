@@ -1,5 +1,37 @@
 @import "tailwindcss";
- 
+
+/* Charis SIL — a Bitstream Charter derivative — backs the Charter 1-Column resume
+   template. These are the same font files components/pdf-templates/charter-pdf.tsx
+   registers, so the live preview and the downloaded PDF wrap text identically. */
+@font-face {
+  font-family: "Charis SIL";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/charissil/v2/oPWK_kV3l-s-Q8govXvKrPo.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Charis SIL";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/charissil/v2/oPWJ_kV3l-s-Q8govXvKlEbJRj4.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Charis SIL";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/charissil/v2/oPWI_kV3l-s-Q8govXvKnPjsZg.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Charis SIL";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/charissil/v2/oPWX_kV3l-s-Q8govXvKnPjU2jtXRg.ttf") format("truetype");
+}
+
 /* Add this to prevent horizontal scroll on small screens */
 html, body {
   overflow-x: hidden;
