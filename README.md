@@ -2,7 +2,7 @@
 
 # Resume Builder
 
-**A modern, client-side resume builder and job platform — choose between a standalone resume builder or a role-based job portal with live preview, PDF export, and applicant management.**
+**A modern, fully client-side resume builder — pick a template, fill in your details, and export a pixel-perfect PDF. No account, no backend.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
@@ -16,66 +16,30 @@
 
 ## Overview
 
-Resume Builder is a fully client-side web app built with **Next.js 16** and **React 19**. On launch, users choose between two independent paths:
+Resume Builder is a static web app built with **Next.js 16** and **React 19**. Everything runs in the browser: you edit your details in a split-screen form, watch the resume update live, and generate the PDF client-side. Nothing is uploaded anywhere.
 
-- **Resume Builder** — a standalone tool for building and exporting professional resumes, no account required.
-- **Job Portal** — an authenticated platform supporting two roles:
-  - **Candidates** — browse jobs, apply, track applications, and build resumes
-  - **Recruiters** — post jobs, manage listings, and review applicants
-
-All data is persisted in `localStorage` — no backend required.
-
----
-
-## Getting Started
-
-Open the app and you'll land on the home page with two cards:
-
-| Path | Auth Required | Description |
-|---|---|---|
-| **Resume Builder** | No | Jump straight into building a resume |
-| **Job Portal** | Yes | Sign in or register with a Candidate or Recruiter role |
+> **Looking for the job portal?** The candidate/recruiter platform (auth, job posting, application tracking) lives on the [`feat/job-portal`](../../tree/feat/job-portal) branch. `main` is the standalone resume builder.
 
 ---
 
 ## Features
 
-### Resume Builder (Standalone)
 - **Live split-screen editor** — changes reflect instantly in the preview pane
-- **5 professional PDF templates**
-  - Best (Professional LaTeX Style)
-  - Modern 2-Column
-  - Creative 2-Column
-  - Classic 2-Column
-  - Minimal 2-Column
-- **One-click PDF export** — pixel-perfect PDF generated client-side via `@react-pdf/renderer`
-- **Structured sections** — Personal Info, Work Experience, Education, Projects, and Skills
+- **6 professional templates**
+
+  | Template | Style |
+  |---|---|
+  | Charter 1-Column | Compact LaTeX Charter CV with ruled section headings |
+  | Best 1-Column | Professional single-column LaTeX style |
+  | Modern 2-Column | Clean and modern with sidebar layout |
+  | Creative 2-Column | Colour-accented sidebar layout |
+  | Classic 2-Column | Traditional professional format |
+  | Minimal 2-Column | Minimalist design with focus on content |
+
+- **One-click PDF export** — generated client-side via `@react-pdf/renderer`
+- **Structured sections** — Personal Info, Work Experience, Education, Projects, Certifications and Skills
 - **Dynamic entry management** — add or remove multiple entries per section
-
-### Authentication & Roles (Job Portal)
-- **Register & login** — email/password stored in `localStorage`
-- **Role selection at signup** — choose *Job Candidate* or *Recruiter* during registration
-- **Protected routes** — role-based access control throughout the portal
-- **Auto-redirect on login** — routes to the correct dashboard based on role
-
-### Candidate Features
-- **Browse jobs** — search and filter all available listings
-- **One-click apply** — submit a cover letter directly from the job board
-- **My Applications** — track statuses: `pending`, `reviewed`, `shortlisted`, `rejected`
-- **Resume builder access** — candidates can also access the resume builder from their sidebar
-
-### Recruiter Features
-- **Post jobs** — create listings with title, company, location, type, salary, description, and requirements
-- **Manage postings** — search, view, and delete own listings
-- **View applicants** — inspect all candidates who applied to a specific posting
-
-### General
-- **Fully mobile responsive** — optimized for mobile, tablet, and desktop
-- **Collapsible sidebar** — role-aware navigation with click-outside to close
-- **Profile dashboard** — unified profile management and statistics
-- **Shared UI components** — `Card`, `Button`, `Badge`, `Modal`, `SearchBar`, `EmptyState`
-- **Sample data seeding** — demo jobs pre-populated on first load
-- **End-to-end TypeScript** — strict interfaces for all resume, job, and application data
+- **End-to-end TypeScript** — strict interfaces for all resume data
 
 ---
 
@@ -83,7 +47,7 @@ Open the app and you'll land on the home page with two cards:
 
 | Technology | Version | Purpose |
 |---|---|---|
-| [Next.js](https://nextjs.org) | 16 | App framework (App Router) |
+| [Next.js](https://nextjs.org) | 16 | App framework (App Router, static export) |
 | [React](https://react.dev) | 19 | UI library |
 | [TypeScript](https://www.typescriptlang.org) | 5 | Type safety |
 | [Tailwind CSS](https://tailwindcss.com) | 4 | Styling |
@@ -99,46 +63,37 @@ Open the app and you'll land on the home page with two cards:
 ```
 Resume-Builder/
 ├── app/
-│   ├── page.tsx                       # Landing page — choose Resume Builder or Job Portal
-│   ├── resume/page.tsx                # Standalone resume editor + live preview
-│   ├── dashboard/page.tsx             # Unified profile dashboard (post-login)
-│   ├── settings/page.tsx              # App settings
-│   ├── auth/
-│   │   └── login/page.tsx             # Login / register with role selection
-│   ├── candidate/
-│   │   ├── jobs/page.tsx              # Job browsing & apply
-│   │   └── applications/page.tsx      # Application tracker
-│   └── recruiter/
-│       └── jobs/page.tsx              # Recruiter job management
+│   ├── page.tsx                       # Landing page
+│   ├── layout.tsx                     # Root layout + template provider
+│   ├── globals.css                    # Tailwind entry + Charis SIL @font-face
+│   └── resume/page.tsx                # Resume editor + live preview
 ├── components/
 │   ├── resume-editor.tsx              # Tabbed form editor
-│   ├── resume-preview.tsx             # Live HTML preview
+│   ├── resume-preview.tsx             # Live HTML preview + template selector
 │   ├── resume-download.tsx            # PDF export button
-│   ├── layout-wrapper.tsx             # Root layout wrapper
-│   ├── Sidebar.tsx                    # Role-aware collapsible navigation
-│   ├── ui/
-│   │   └── index.tsx                  # Shared UI components
+│   ├── layout-wrapper.tsx             # Minimum-width guard
 │   ├── pdf-templates/                 # @react-pdf/renderer PDF templates
+│   │   ├── charter-pdf.tsx
 │   │   ├── best-pdf.tsx
 │   │   ├── modern-pdf.tsx
 │   │   ├── creative-pdf.tsx
 │   │   ├── classic-pdf.tsx
 │   │   └── minimal-pdf.tsx
 │   └── templates/                     # HTML live-preview templates
+│       ├── charter-preview.tsx
 │       ├── best-preview.tsx
 │       ├── modern-preview.tsx
 │       ├── creative-preview.tsx
 │       ├── classic-preview.tsx
 │       └── minimal-preview.tsx
 ├── context/
-│   ├── AuthContext.tsx                # Auth state — login / register / logout
 │   └── TemplateContext.tsx            # Global selected-template state
 └── lib/
     ├── resume.ts                      # Core resume TypeScript interfaces
     ├── defaults.ts                    # Default / sample resume data
-    ├── services.ts                    # Job & application CRUD (localStorage)
+    ├── text-format.ts                 # Bullet line + bold label parsing
     ├── pdf-registry.ts                # PDF template registry
-    └── html-registry.ts              # HTML preview template registry
+    └── html-registry.ts               # HTML preview template registry
 ```
 
 ---
@@ -154,25 +109,24 @@ Resume-Builder/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/Resume-Builder.git
+git clone https://github.com/Abdullah-Masood-05/Resume-Builder.git
 cd Resume-Builder
 
 # 2. Install dependencies
 bun install
-# or: npm install
 
 # 3. Start the development server
 bun dev
-# or: npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Build for Production
 
+The app is configured for static export (`output: "export"`), so a build emits a fully static site to `out/`.
+
 ```bash
 bun run build
-bun run start
 ```
 
 ### Available Scripts
@@ -180,7 +134,7 @@ bun run start
 | Script | Description |
 |---|---|
 | `bun dev` | Start the development server |
-| `bun run build` | Build for production |
+| `bun run build` | Build the static site into `out/` |
 | `bun run start` | Start the production server |
 | `bun run lint` | Run ESLint |
 
@@ -188,28 +142,11 @@ bun run start
 
 ## Usage
 
-### Resume Builder (No account needed)
-1. On the landing page, click **Resume Builder**
-2. Pick a template from the top selector
-3. Fill in your details across five tabs: *Personal*, *Experience*, *Education*, *Projects*, *Skills*
-4. See your resume update live in the preview pane
+1. From the landing page, click **Start Building**
+2. Pick a template from the selector above the preview
+3. Fill in your details across the tabs: *Personal*, *Experience*, *Education*, *Projects*, *Skills*
+4. Watch the resume update live in the preview pane
 5. Click **Download PDF** to export
-
-### As a Candidate
-1. On the landing page, click **Job Portal** → **Sign In / Register**
-2. Select *Job Candidate* as your role and create an account
-3. Browse and filter open positions from the **Browse Jobs** page
-4. Click **Apply**, write a cover letter, and submit
-5. Track your application statuses under **My Applications**
-6. Use **Build Resume** in the sidebar to access the resume editor
-
-### As a Recruiter
-1. On the landing page, click **Job Portal** → **Sign In / Register**
-2. Select *Recruiter* as your role and create an account
-3. You'll land on **My Job Postings** — click **Post New Job** to create a listing
-4. Fill in the title, company, location, type, salary, description, and requirements
-5. Click **View Applicants** on any posting to see who applied
-6. Delete obsolete listings with the trash icon
 
 ---
 
@@ -217,7 +154,7 @@ bun run start
 
 1. Create a PDF component in `components/pdf-templates/your-template.tsx` using `@react-pdf/renderer` primitives (`Page`, `View`, `Text`, `StyleSheet`)
 2. Create a matching HTML preview in `components/templates/your-preview.tsx`
-3. Register both in `lib/pdf-registry.ts` and `lib/html-registry.ts`
+3. Register both in `lib/pdf-registry.ts` and `lib/html-registry.ts` under the same key
 
 ```ts
 // lib/pdf-registry.ts
@@ -233,7 +170,7 @@ export const pdfTemplates = {
 }
 ```
 
-The new template will automatically appear in the template selector — no other changes needed.
+The new template appears in the selector automatically — no other changes needed. Keep the two components visually in sync; the preview is what users judge the PDF by.
 
 ---
 
@@ -253,14 +190,10 @@ Please ensure the project builds (`bun run build`) and lints (`bun run lint`) wi
 
 ## Roadmap
 
-- [x] Landing page with Resume Builder / Job Portal path selection
 - [x] Standalone resume builder (no auth required)
-- [x] Authentication & role-based access (candidate / recruiter)
-- [x] Job posting & browsing platform
-- [x] Application submission & tracking
-- [x] 5 professional PDF templates
-- [x] Shared UI component library
-- [x] Mobile responsiveness
+- [x] 6 professional PDF templates
+- [x] Live split-screen preview
+- [x] Static export deployment
 - [ ] ATS score / keyword analysis
 - [ ] Import from LinkedIn / JSON Resume
 - [ ] Multi-page PDF support
