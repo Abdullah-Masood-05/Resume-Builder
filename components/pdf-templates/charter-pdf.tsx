@@ -336,7 +336,7 @@ function EntryHeader({
 }
 
 function BulletList({ lines, trailing }: { lines: string[]; trailing?: string }) {
-  const items = trailing ? [...lines, trailing] : lines
+  const items = (trailing ? [...lines, trailing] : lines).map((l) => l.trim()).filter(Boolean)
   if (items.length === 0) return null
 
   return (

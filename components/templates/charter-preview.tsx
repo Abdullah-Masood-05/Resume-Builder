@@ -275,7 +275,7 @@ function EntrySubtitle({ children }: { children: React.ReactNode }) {
 
 /** `\begin{itemize}` with leftmargin=1.5em, itemsep=0pt, topsep=0pt */
 function BulletList({ lines, trailing }: { lines: string[]; trailing?: string }) {
-  const items = trailing ? [...lines, trailing] : lines
+  const items = (trailing ? [...lines, trailing] : lines).map((l) => l.trim()).filter(Boolean)
   if (items.length === 0) return null
 
   return (

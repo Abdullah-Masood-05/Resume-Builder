@@ -200,7 +200,7 @@ export function BestHtmlTemplate({ data }: BestHtmlTemplateProps) {
                 </span>
               </div>
               <BulletList>
-                {(cert.bullets || []).map((b: string, j: number) => (
+                {(cert.bullets || []).filter((b: string) => b.trim()).map((b: string, j: number) => (
                   <BulletItem key={j}>{b}</BulletItem>
                 ))}
               </BulletList>

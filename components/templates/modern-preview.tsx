@@ -79,6 +79,41 @@ export function ModernHtmlTemplate({ data }: ModernMinimalHtmlProps) {
         </section>
       )}
 
+      {Array.isArray(data.certifications) && data.certifications.length > 0 && (
+        <section className="mb-10">
+          <h2 className="text-lg font-semibold mb-4 tracking-wide">
+            Certifications
+          </h2>
+
+          {data.certifications.map((cert, i) => (
+            <div key={i} className="mb-6">
+              <div className="flex justify-between text-sm font-medium">
+                <span>{safe(cert.name)}</span>
+                <span className="text-gray-500">{safe(cert.date)}</span>
+              </div>
+
+              {cert.url && (
+                <a href={cert.url} className="text-sm text-blue-600 hover:underline">
+                  {cert.urlLabel || "View credential"}
+                </a>
+              )}
+
+              {cert.description && (
+                <p className="text-sm text-gray-700 mt-1">{cert.description}</p>
+              )}
+
+              {(cert.bullets || [])
+                .filter((b) => b.trim())
+                .map((b, j) => (
+                  <p key={j} className="text-sm text-gray-700 mt-1">
+                    &bull; {b}
+                  </p>
+                ))}
+            </div>
+          ))}
+        </section>
+      )}
+
       {Array.isArray(data.skills) && data.skills.length > 0 && (
         <section className="mb-10">
           <h2 className="text-lg font-semibold mb-4 tracking-wide">

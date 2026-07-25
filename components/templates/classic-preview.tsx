@@ -59,7 +59,7 @@ export function ClassicHtmlTemplate({ data }: ClassicPdfTemplateProps) {
           )}
 
           {Array.isArray(data.education) && data.education.length > 0 && (
-            <section>
+            <section className="mb-6">
               <h2 className="uppercase text-sm font-bold mb-3">Education</h2>
               {data.education.map((edu, i) => (
                 <div key={i} className="mb-2">
@@ -70,6 +70,30 @@ export function ClassicHtmlTemplate({ data }: ClassicPdfTemplateProps) {
                   <div className="text-sm">
                     {safe(edu.degree)} in {safe(edu.field)}
                   </div>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {Array.isArray(data.certifications) && data.certifications.length > 0 && (
+            <section>
+              <h2 className="uppercase text-sm font-bold mb-3">Certifications</h2>
+              {data.certifications.map((cert, i) => (
+                <div key={i} className="mb-2">
+                  <div className="flex justify-between text-sm font-bold">
+                    <span>{safe(cert.name)}</span>
+                    <span className="text-gray-600">{safe(cert.date)}</span>
+                  </div>
+                  {cert.description && (
+                    <div className="text-sm text-gray-700">{cert.description}</div>
+                  )}
+                  {(cert.bullets || [])
+                    .filter((b) => b.trim())
+                    .map((b, j) => (
+                      <div key={j} className="text-sm text-gray-700">
+                        &bull; {b}
+                      </div>
+                    ))}
                 </div>
               ))}
             </section>

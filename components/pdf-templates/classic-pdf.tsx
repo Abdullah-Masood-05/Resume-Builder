@@ -118,6 +118,7 @@ export function ClassicPdfTemplate({ data }: ClassicPdfTemplateProps) {
 
   const experienceItems = (data.experience || []).filter(Boolean);
   const educationItems = (data.education || []).filter(Boolean);
+  const certificationItems = (data.certifications || []).filter(Boolean);
   const skillsItems = (data.skills || []).filter(Boolean);
 
   return (
@@ -185,6 +186,31 @@ export function ClassicPdfTemplate({ data }: ClassicPdfTemplateProps) {
                   <Text style={styles.degree}>
                     {safeText(edu.degree)} in {safeText(edu.field)}
                   </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Certifications */}
+          {certificationItems.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Certifications</Text>
+              {certificationItems.map((cert, i) => (
+                <View key={i} style={styles.educationItem}>
+                  <View style={styles.jobHeader}>
+                    <Text style={styles.schoolName}>{safeText(cert.name)}</Text>
+                    <Text style={styles.dates}>{safeText(cert.date)}</Text>
+                  </View>
+                  {cert.description ? (
+                    <Text style={styles.degree}>{cert.description}</Text>
+                  ) : null}
+                  {(cert.bullets || [])
+                    .filter((b) => b.trim())
+                    .map((b, j) => (
+                      <Text key={j} style={styles.degree}>
+                        • {b}
+                      </Text>
+                    ))}
                 </View>
               ))}
             </View>

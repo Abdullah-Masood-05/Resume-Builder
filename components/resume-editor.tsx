@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, ChangeEvent } from "react"
-import { User, Briefcase, GraduationCap, Code, Plus, Trash2, Mail, Phone, MapPin, FileText, FolderGit2, Linkedin, Github, Globe } from "lucide-react"
-import type { Education, Experience, PersonalInfo, Project, ResumeData } from "@/lib/resume"
+import { User, Briefcase, GraduationCap, Code, Plus, Trash2, Mail, Phone, MapPin, FileText, FolderGit2, Linkedin, Github, Globe, Award } from "lucide-react"
+import type { Certification, Education, Experience, PersonalInfo, Project, ResumeData } from "@/lib/resume"
 
 type ResumeEditorProps = {
   data: ResumeData
@@ -10,7 +10,9 @@ type ResumeEditorProps = {
 }
 
 export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
-  const [activeSection, setActiveSection] = useState<"personal" | "experience" | "education" | "skills" | "projects">("personal")
+  const [activeSection, setActiveSection] = useState<
+    "personal" | "experience" | "education" | "skills" | "projects" | "certifications"
+  >("personal")
 
   const updatePersonal = (field: keyof PersonalInfo, value: string) => {
     onChange({
@@ -80,11 +82,46 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
     onChange({ ...data, projects: updatedProjects })
   }
 
+  const updateCertification = (
+    index: number,
+    field: keyof Omit<Certification, "bullets">,
+    value: string,
+  ) => {
+    const updated = [...(data.certifications || [])]
+    updated[index] = { ...updated[index], [field]: value }
+    onChange({ ...data, certifications: updated })
+  }
+
+  // Kept as raw lines (not filtered) so pressing Enter mid-edit doesn't fight the caret;
+  // templates drop the blanks at render time.
+  const updateCertificationBullets = (index: number, value: string) => {
+    const updated = [...(data.certifications || [])]
+    updated[index] = { ...updated[index], bullets: value.split("\n") }
+    onChange({ ...data, certifications: updated })
+  }
+
+  const addCertification = () => {
+    onChange({
+      ...data,
+      certifications: [
+        ...(data.certifications || []),
+        { name: "", date: "", url: "", urlLabel: "", description: "" },
+      ],
+    })
+  }
+
+  const removeCertification = (index: number) => {
+    const updatedCertifications = [...(data.certifications || [])]
+    updatedCertifications.splice(index, 1)
+    onChange({ ...data, certifications: updatedCertifications })
+  }
+
   const sections = [
     { id: "personal", label: "Personal", icon: User },
     { id: "experience", label: "Experience", icon: Briefcase },
     { id: "education", label: "Education", icon: GraduationCap },
     { id: "projects", label: "Projects", icon: FolderGit2 },
+    { id: "certifications", label: "Certifications", icon: Award },
     { id: "skills", label: "Skills", icon: Code },
   ]
 
@@ -103,7 +140,7 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
         </div>
         
         {/* Navigation Tabs */}
-        <nav className="flex gap-2 overflow-x-auto pb-2 -mb-2 scrollbar-hide">
+        <nav className="flex flex-wrap gap-2">
           {sections.map((section) => {
         const Icon = section.icon
         const isActive = activeSection === section.id
@@ -587,6 +624,125 @@ export function ResumeEditor({ data, onChange }: ResumeEditorProps) {
                         onChange={(e) => updateProject(i, "description", e.target.value)}
                         className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent min-h-24 resize-none"
                       />
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </section>
+        )}
+
+        {activeSection === "certifications" && (
+          <section className="flex-1 mb-[250px] space-y-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                  <Award className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Certifications</h2>
+                  <p className="text-sm text-gray-500">Add your certificates and courses</p>
+                </div>
+              </div>
+              <button
+                onClick={addCertification}
+                className="flex items-center gap-2 px-4 py-2.5 bg-linear-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:from-orange-600 hover:to-orange-700 transition-all shadow-md hover:shadow-lg"
+              >
+                <Plus className="w-4 h-4" />
+                Add Certification
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {!(data.certifications && data.certifications.length > 0) ? (
+                <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                  <Award className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-500 font-medium">No certifications added yet</p>
+                  <p className="text-sm text-gray-400 mt-1">Click Add Certification to get started</p>
+                </div>
+              ) : (
+                data.certifications.map((cert, i) => (
+                  <div key={i} className="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-all space-y-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
+                        Certification #{i + 1}
+                      </span>
+                      <button
+                        onClick={() => removeCertification(i)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-all"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Certification Name</label>
+                      <input
+                        type="text"
+                        placeholder="Data Science Professional Certificate"
+                        value={cert.name}
+                        onChange={(e) => updateCertification(i, "name", e.target.value)}
+                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Date</label>
+                      <input
+                        type="text"
+                        placeholder="Feb 2025"
+                        value={cert.date}
+                        onChange={(e) => updateCertification(i, "date", e.target.value)}
+                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Credential Link (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="https://coursera.org/verify/..."
+                          value={cert.url || ""}
+                          onChange={(e) => updateCertification(i, "url", e.target.value)}
+                          className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Link Label (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="Coursera"
+                          value={cert.urlLabel || ""}
+                          onChange={(e) => updateCertification(i, "urlLabel", e.target.value)}
+                          className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Description (Optional)</label>
+                      <input
+                        type="text"
+                        placeholder="What the certificate covered"
+                        value={cert.description || ""}
+                        onChange={(e) => updateCertification(i, "description", e.target.value)}
+                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Additional Details (Optional)</label>
+                      <textarea
+                        placeholder="One bullet point per line..."
+                        value={(cert.bullets || []).join("\n")}
+                        onChange={(e) => updateCertificationBullets(i, e.target.value)}
+                        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-900 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent min-h-20 resize-none"
+                      />
+                      <p className="mt-2 text-xs text-gray-500">
+                        Each line becomes its own bullet point
+                      </p>
                     </div>
                   </div>
                 ))

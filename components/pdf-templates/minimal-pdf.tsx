@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
 
 export function MinimalPdfTemplate({ data }: OneColPdfProps) {
   const safe = (v?: string) => v || "-";
+  const certifications = data.certifications || [];
 
   return (
     <Page size="A4" style={styles.page}>
@@ -123,6 +124,30 @@ export function MinimalPdfTemplate({ data }: OneColPdfProps) {
               <Text>
                 {safe(edu.degree)} in {safe(edu.field)}
               </Text>
+            </View>
+          ))}
+        </View>
+      )}
+
+      {certifications.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Certifications</Text>
+          {certifications.map((cert, i) => (
+            <View key={i} style={{ marginBottom: 10 }}>
+              <View style={styles.row}>
+                <Text style={styles.bold}>{safe(cert.name)}</Text>
+                <Text>{safe(cert.date)}</Text>
+              </View>
+              {cert.description ? (
+                <Text style={styles.description}>{cert.description}</Text>
+              ) : null}
+              {(cert.bullets || [])
+                .filter((b) => b.trim())
+                .map((b, j) => (
+                  <Text key={j} style={styles.description}>
+                    • {b}
+                  </Text>
+                ))}
             </View>
           ))}
         </View>

@@ -50,7 +50,7 @@ export function CreativeHtmlTemplate({ data }: CreativePdfTemplateProps) {
           </section>
 
           {/* Education Section */}
-          <section>
+          <section className="mb-4">
             <h2 className="text-lg font-bold border-b-2 border-emerald-500 pb-1 mb-2 flex items-center">
               <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2"></span>
               Education
@@ -64,6 +64,32 @@ export function CreativeHtmlTemplate({ data }: CreativePdfTemplateProps) {
               </div>
             ))}
           </section>
+
+          {/* Certifications Section */}
+          {Array.isArray(data.certifications) && data.certifications.length > 0 && (
+            <section>
+              <h2 className="text-lg font-bold border-b-2 border-emerald-500 pb-1 mb-2 flex items-center">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2"></span>
+                Certifications
+              </h2>
+              {data.certifications.map((cert, i) => (
+                <div key={i} className="mb-3">
+                  <h3 className="font-bold text-emerald-700 text-sm">{safe(cert.name)}</h3>
+                  <p className="text-xs text-gray-600">{safe(cert.date)}</p>
+                  {cert.description && (
+                    <p className="text-xs italic">{cert.description}</p>
+                  )}
+                  {(cert.bullets || [])
+                    .filter((b) => b.trim())
+                    .map((b, j) => (
+                      <p key={j} className="text-xs text-gray-600">
+                        &bull; {b}
+                      </p>
+                    ))}
+                </div>
+              ))}
+            </section>
+          )}
         </aside>
 
         {/* Right Column */}

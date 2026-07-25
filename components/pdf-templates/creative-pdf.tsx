@@ -177,6 +177,7 @@ export function CreativePdfTemplate({ data }: CreativePdfTemplateProps) {
 
   const experienceItems = (data.experience || []).filter(Boolean);
   const educationItems = (data.education || []).filter(Boolean);
+  const certificationItems = (data.certifications || []).filter(Boolean);
   const skillsItems = (data.skills || []).filter(Boolean);
 
   return (
@@ -233,6 +234,32 @@ export function CreativePdfTemplate({ data }: CreativePdfTemplateProps) {
               </View>
             ))}
           </View>
+
+          {/* Certifications Section */}
+          {certificationItems.length > 0 && (
+            <View style={styles.section}>
+              <View style={styles.sectionTitle}>
+                <View style={styles.sectionTitleDot} />
+                <Text>Certifications</Text>
+              </View>
+              {certificationItems.map((cert, i) => (
+                <View key={i} style={styles.educationItem}>
+                  <Text style={styles.degree}>{safeText(cert.name)}</Text>
+                  <Text style={styles.year}>{safeText(cert.date)}</Text>
+                  {cert.description ? (
+                    <Text style={styles.field}>{cert.description}</Text>
+                  ) : null}
+                  {(cert.bullets || [])
+                    .filter((b) => b.trim())
+                    .map((b, j) => (
+                      <Text key={j} style={styles.year}>
+                        • {b}
+                      </Text>
+                    ))}
+                </View>
+              ))}
+            </View>
+          )}
         </View>
 
         {/* Right Column */}

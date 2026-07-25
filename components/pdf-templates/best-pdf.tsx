@@ -198,7 +198,7 @@ export function BestPdfTemplate({ data }: BestPdfTemplateProps) {
                 </View>
               </View>
               <View style={styles.bulletList}>
-                {(cert.bullets || []).map((b: string, j: number) => (
+                {(cert.bullets || []).filter((b: string) => b.trim()).map((b: string, j: number) => (
                   <View key={j} style={styles.bulletPoint}>
                     <Text style={styles.bullet}>•</Text>
                     <Text style={styles.bulletText}>{b}</Text>
