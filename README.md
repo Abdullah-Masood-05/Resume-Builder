@@ -9,7 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-  <a href="https://github.com/Abdullah-Masood-05/Resume-Builder/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Abdullah-Masood-05/Resume-Builder?style=social&logo=github"></a>
+[![GitHub stars](https://img.shields.io/github/stars/Abdullah-Masood-05/Resume-Builder?style=social&logo=github)](https://github.com/Abdullah-Masood-05/Resume-Builder/stargazers)
 
 </div>
 
